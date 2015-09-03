@@ -1,0 +1,30 @@
+#gameView {
+    opacity: 0;
+    position: absolute;
+    transition: opacity 0.5s;
+}
+
+#splash {
+    position: absolute;
+    opacity: 0;
+    left: 0px;
+    transition: opacity 0.5s;
+
+}
+
+#opening{ 
+    transition: opacity 0.5s;
+}
+
+#newgame {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.5s;
+    cursor: pointer;
+
+}
+
+body {
+    overflow: hidden;
+    background-color: #000000;
+}
