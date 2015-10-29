@@ -1,14 +1,23 @@
-collision = require('./collision.js');
+var collision = require('./collision.js');
+var audio = require('./audio.js');
 
 var step = function() {
 
     renderer.newItems = [];
     renderer.level(renderer.world);
     collision(renderer.world);
+    audio.updatePov(pov.pos);
+    renderer.world.sort(function(a, b) {
+        return a.onTop;
+    });
 
     renderer.canvas.width = renderer.canvas.width;
     renderer.world = renderer.world.filter(function(item) { 
         var width, height, sx, sy, i;
+        if (item.audio) {
+            audio[item.type][item.audio](item.pos);
+            item.audio = null;
+        }
         if (item.visible) {
             if (item.pos.rot > Math.PI * 2) item.pos.rot -= Math.PI * 2;
             if (item.pos.rot < 0) item.pos.rot += Math.PI * 2;

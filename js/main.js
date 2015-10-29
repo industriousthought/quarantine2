@@ -8,9 +8,13 @@ var world = [];
 
 window.onload = function() {
     window.ondragstart = function() { return false; };
+    var stats = document.getElementById('stats');
     var newGame = document.getElementById('newgame');
     var canvas = document.getElementById('gameView');
     var opening = document.getElementById('opening');
+    new Array().slice.call(document.getElementsByClassName('weapon')).forEach(function(item) {
+        item.width = 100;
+    });
     var startGame = function() {
         newGame.removeEventListener('click',  startGame);
         world = [];
@@ -34,6 +38,7 @@ window.onload = function() {
     canvas.style.width = splash.width + 'px';
     canvas.style.height = splash.height + 'px';
     canvas.style.top = ((window.innerHeight - splash.height) / 2) + 'px';
+    stats.style.top = canvas.style.top;
 
     window.gameOver = function() {
         wasd.stop();

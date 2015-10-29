@@ -1,4 +1,5 @@
 window.keysPressed = [];
+var switchWeapon;
 
 var wasd = {
     x: 0,
@@ -32,6 +33,11 @@ var wasd = {
         if (this.right) { 
             this.pos.x += Math.cos(this.pos.rot - Math.PI * 1.5) * 4;
             this.pos.y += Math.sin(this.pos.rot - Math.PI * 1.5) * 4;
+        }
+        if (switchWeapon) {
+            console.log('ttab');
+            switchWeapon = false;
+            this.nextWeapon();
         }
         return true;
     },
@@ -67,6 +73,14 @@ var wasd = {
             wasd.controlling.addMode('standing');
         }
     },
+    keyPress: function(e) {
+        if (e.keyCode === 9) {
+            e.preventDefault();
+            switchWeapon = true;
+        }
+
+    },
+
     keyDown: function(e) {
         if (keysPressed.indexOf(e.keyCode) === -1) {
             keysPressed.push(e.keyCode)
@@ -123,6 +137,7 @@ var wasd = {
         window.addEventListener('mousedown', wasd.leftClick);
 
         window.addEventListener('keydown', wasd.keyDown);
+        window.addEventListener('keydown', wasd.keyPress);
 
         window.addEventListener('keyup', wasd.keyUp);
 
@@ -132,6 +147,7 @@ var wasd = {
         window.removeEventListener('mousedown', wasd.leftClick);
 
         window.removeEventListener('keydown', wasd.keyDown);
+        window.removeEventListener('keydown', wasd.keyPress);
 
         window.removeEventListener('keyup', wasd.keyUp);
 

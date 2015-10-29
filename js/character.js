@@ -13,12 +13,17 @@ module.exports = function(options) {
     var renderer = options.renderer;
     var health = options.health;
     var target = options.target;
+    var arsenal = options.arsenal;
+    var currentWeapon = options.currentWeapon;
     return function(options) {
         var aniTick = 0;
         var effects = [];
         var newEffects = [];
         var img = spriteMaps[options.img];
         var character = {
+            onTop: true,
+            arsenal: arsenal,
+            currentWeapon: currentWeapon,
             animate: true,
             visible: true,
             geometry: 'circle',

@@ -28,3 +28,27 @@ body {
     overflow: hidden;
     background-color: #000000;
 }
+
+.weaponBox {
+    display: none;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    float: left;
+}
+
+#stats {
+    position: absolute;
+    height: 200px;
+    width 100%;
+    left: 0px;
+
+}
+
+#ammo {
+    size: 40px;
+    color: #FFFFFF;
+}
+
+.weapon {
+}

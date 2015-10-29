@@ -37,17 +37,17 @@ var level = function(options) {
 
     world.push(Zombie({renderer: renderer, img: 2, pos: {x: 1900, y: 1700, rot: 0}}));
     world.push(Zombie({renderer: renderer, img: 0, pos: {x: 3400, y: 1700, rot: 0}}));
-    world.push(Zombie({renderer: renderer, img: 2, pos: {x: 1900, y: 2400, rot: 0}}));
-    world.push(Zombie({renderer: renderer, img: 1, pos: {x: 3700, y: 1700, rot: 0}}));
-    world.push(Zombie({renderer: renderer, img: 2, pos: {x: 1500, y: 2300, rot: 0}}));
-    world.push(Zombie({renderer: renderer, img: 0, pos: {x: 3900, y: 1200, rot: 0}}));
+    //world.push(Zombie({renderer: renderer, img: 2, pos: {x: 1900, y: 2400, rot: 0}}));
+    //world.push(Zombie({renderer: renderer, img: 1, pos: {x: 3700, y: 1700, rot: 0}}));
+    //world.push(Zombie({renderer: renderer, img: 2, pos: {x: 1500, y: 2300, rot: 0}}));
+    //world.push(Zombie({renderer: renderer, img: 0, pos: {x: 3900, y: 1200, rot: 0}}));
 
     world.push(player);
 
     var tick = 0;
 
     return function(world) {
-        if (tick > 30) {
+        if (tick > 200) {
             tick = 0;
             world.push(Zombie({renderer: renderer, img: 2, pos: {x: 3500, y: 3500, rot: 0}}));
             tick = 0;
