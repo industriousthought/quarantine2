@@ -61,6 +61,7 @@ var collision = function(world) {
                         point = block.testPoint(circle.pos);
                         if (point) {
                             if (circle.type === 'bullet') circle.die = true;
+                            if (circle.type === 'activation' || block.type === 'door') block.collision.activation();
                             circle.pos.x = point.x;
                             circle.pos.y = point.y;
                         }

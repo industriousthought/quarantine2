@@ -1,7 +1,7 @@
 var Character = require('./character.js');
+var Weapons = require('./weapons.js');
 
 module.exports = function(options) {
-    
 
     var Zombie = Character({
         target: undefined,
@@ -19,6 +19,7 @@ module.exports = function(options) {
         modes: {
             wandering: function() {
                 //console.log('wandering');
+                if (Math.random() < 0.05) this.audio = 'growl';
                 var timeLength = 1 + parseInt(Math.random() * 3 * 1000);
                 var startTime = Date.now();
                 this.velocity = 1 + Math.random() * 2;
@@ -55,6 +56,7 @@ module.exports = function(options) {
                         bullet: function() {},
                         block: function() {},
                         goal: function() {},
+                        meelee: function() {},
                         zombie: function(zombie) {
                             console.log('goal hit');
                             if (zombie === this.target) {
@@ -91,10 +93,15 @@ module.exports = function(options) {
             staggering: function() {
             },
             dead: function() {
+                var drop = Math.floor(Math.random() * 10);
+                if (drop <= 2) this.renderer.newItems.push(Weapons.pistol.drop(this, 'pistol'));
+                if (drop === 3) this.renderer.newItems.push(Weapons.shotgun.drop(this, 'shotgun'));
+                if (drop === 4) this.renderer.newItems.push(Weapons.rifle.drop(this, 'rifle'));
                 var start = Date.now();
                 this.pose.y = 3;
                 this.velocity = 0;
                 this.geometry = 'none';
+                this.onTop = false;
                 this.addEffect(function() {
                     if (this.pose.x === 2) {
                         this.animate = false;
@@ -128,7 +135,21 @@ module.exports = function(options) {
                 var x = Math.cos(bullet.pos.rot) * 30;
                 var y = Math.sin(bullet.pos.rot) * 30;
                 var start = Date.now();
-                this.health -= 20;
+                this.health -= bullet.power;
+
+                this.addEffect(function() {
+                    var elapsed = Date.now() - start;
+                    if (elapsed > 75) return false;
+                    this.pos.x += x;
+                    this.pos.y += y;
+                    return true;
+                });
+            },
+            meelee: function(meelee) {
+                var x = Math.cos(meelee.pos.rot) * 30;
+                var y = Math.sin(meelee.pos.rot) * 30;
+                var start = Date.now();
+                this.health -= meelee.power;
 
                 this.addEffect(function() {
                     var elapsed = Date.now() - start;
@@ -143,7 +164,8 @@ module.exports = function(options) {
                     this.target = undefined;
                     this.addMode('wandering');
                 }
-            }
+            },
+            weapon: function() {}
         }
     });
 

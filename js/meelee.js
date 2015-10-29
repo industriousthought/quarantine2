@@ -1,20 +1,18 @@
 var image = new Image();
-image.src = './img/bullet.png';
+//image.src = './img/batswing.png';
+image.src = './img/baseballbat.png';
 
-var Bullet = function(options) {
+var Meelee = function(options) {
 
-    var range = options.range;
-    var velocity = options.velocity;
+    var start = Date.now();
 
-    var distance = 0;
-
-    var bullet = {
-        onTop: true,
+    var meelee = {
         power: options.power,
+        onTop: true,
         geometry: 'circle',
-        type: 'bullet',
+        type: 'meelee',
         visible: true,
-        radius: 10,
+        radius: 100,
         img: image,
         pos: {
             x: options.x,
@@ -22,10 +20,10 @@ var Bullet = function(options) {
             rot: options.rot
         },
         step: function() {
-            if (this.die || distance > range) return false;
-            distance++;
-            this.pos.x += Math.cos(this.pos.rot) * velocity;
-            this.pos.y += Math.sin(this.pos.rot) * velocity;
+            if (this.die || Date.now() - 250 > start) return false;
+
+            this.pos.x = options.parent.pos.x + Math.cos(this.pos.rot) * 50;
+            this.pos.y = options.parent.pos.y + Math.sin(this.pos.rot) * 50;
             return true;
         },
         collision: {
@@ -41,14 +39,17 @@ var Bullet = function(options) {
             block: function() {
                 this.die = true;
             },
+            meelee: function() {
+
+            },
             goal: function() {},
             weapon: function() {}
 
         }
     };
 
-    return bullet;
+    return meelee;
 
 };
 
-module.exports = Bullet;
+module.exports = Meelee;
