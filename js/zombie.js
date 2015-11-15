@@ -3,7 +3,8 @@ var Weapons = require('./weapons.js');
 
 module.exports = function(options) {
 
-    var Zombie = Character({
+    var zombie = Character({
+        outerOptions: options,
         target: undefined,
         renderer: options.renderer,
         health: 100,
@@ -169,5 +170,5 @@ module.exports = function(options) {
         }
     });
 
-    return Zombie(options);
+    return zombie;
 };

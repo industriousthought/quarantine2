@@ -1,0 +1,30 @@
+{
+  "name": "Quarantine",
+  "description": "HTML5 game",
+  "version": "0.0.0",
+  "author": "Brian Blackwell",
+  "homepage": "",
+  "contributors": [
+    "Brian Blackell <industriousthought@gmail.com>"
+  ],
+  "bugs": {
+    "url": ""
+  },
+  "scripts": {
+    "start": "http-server ./",
+    "build": "./build.sh"
+  },
+  "dependencies": {
+    "browserify": "^12.0.1",
+    "http-server": "^0.8.5"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "repository": "",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ]
+}

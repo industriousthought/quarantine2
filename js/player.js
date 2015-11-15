@@ -5,7 +5,8 @@ var Weapons = require('./weapons.js');
 module.exports = function(options) {
 
 
-    var Player = Character({
+    var player = Character({
+        outerOptions: options,
         currentWeapon: 'pistol',
         velocity: 0,
         renderer: options.renderer,
@@ -69,8 +70,8 @@ module.exports = function(options) {
         }
     });
 
-    var player = Player(options);
     options.controller.controlling = player;
+
     player.addEffect(options.controller.responseEffect);
     player.nextWeapon = function() {
         player.currentWeapon = Weapons[player.currentWeapon].next;
