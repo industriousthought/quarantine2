@@ -9,6 +9,9 @@ var collision = function(world) {
                     dis = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
                     radius = collider.radius + collidee.radius;
 
+                    if ((collider.type === 'clickMenu' && collidee.type === 'zombie') || (collidee.type === 'clickMenu' && collider.type === 'zombie')) {
+                        console.log(dis);
+                    }
                     if ((collider.type === 'zombie' && collidee.type === 'human') || (collidee.type === 'zombie' && collider.type === 'human')) {
                         if (collider.type === 'zombie') {
                             zombie = collider;
@@ -41,8 +44,8 @@ var collision = function(world) {
                     }
 
                     if (dis < radius) {
-                        collider.collision[collidee.type].call(collider, collidee);
-                        collidee.collision[collider.type].call(collidee, collider);
+                        if (collider.collision[collidee.type]) collider.collision[collidee.type].call(collider, collidee);
+                        if (collidee.collision[collider.type]) collidee.collision[collider.type].call(collidee, collider);
 
                     }
                 }
@@ -60,10 +63,14 @@ var collision = function(world) {
                     if (circle.type !== 'goal') {
                         point = block.testPoint(circle.pos);
                         if (point) {
-                            if (circle.type === 'bullet') circle.die = true;
-                            if (circle.type === 'activation' || block.type === 'door') block.collision.activation();
-                            circle.pos.x = point.x;
-                            circle.pos.y = point.y;
+                            if (circle.type === 'clickObj') circle.addObj(block);
+                            if (circle.type === 'clickMenu') circle.addObj(block);
+                            if (circle.type === 'bullet' && block.type === 'block') circle.die = true;
+                            if (block.type === 'sensor' && circle.type === 'activation') block.collision.activation();
+                            if (block.solid) {
+                                circle.pos.x = point.x;
+                                circle.pos.y = point.y;
+                            }
                         }
                     }
 

@@ -1,10 +1,7 @@
+window.log = '';
 require('./animationShim.js');
-var renderer = require('./renderer.js');
-var Player = require('./player.js');
-var wasd = require('./wasd.js');
-var level = require('./level.js');
-
-var world = [];
+window.renderer = require('./renderer.js');
+var editor = require('./editor.js');
 
 window.onload = function() {
     window.ondragstart = function() { return false; };
@@ -12,20 +9,22 @@ window.onload = function() {
     var newGame = document.getElementById('newgame');
     var canvas = document.getElementById('gameView');
     var opening = document.getElementById('opening');
+    var levelEdit = document.getElementById('levelEdit');
     new Array().slice.call(document.getElementsByClassName('weapon')).forEach(function(item) {
         item.width = 100;
     });
-    var startGame = function() {
+    var startGame = function(edit, e) {
+        console.log(edit);
         newGame.removeEventListener('click',  startGame);
-        world = [];
-        var player = Player({controller: wasd, renderer: renderer, img: 0, pos: {x: 0, y: 0, rot: 0}});
-        renderer.init({level: level({player: player, world: world, renderer: renderer}), canvas: 'gameView', world: world, pov: player});
+        renderer.init({canvas: 'gameView', renderer: renderer, edit: edit});
+        renderer.loadLevel('one');
 
         canvas.style.opacity = 1;
         opening.style.opacity = 0;
         renderer.start();
-        wasd.start();
     };
+
+
 
     splash.width = window.innerWidth;
     splash.style.top = ((window.innerHeight - splash.height) / 2) + 'px';
@@ -41,7 +40,7 @@ window.onload = function() {
     stats.style.top = canvas.style.top;
 
     window.gameOver = function() {
-        wasd.stop();
+        renderer.clear = true;
         var t = setTimeout(function() {
             opening.style.opacity = 1;
             newGame.style.opacity = 0.5;
@@ -54,7 +53,8 @@ window.onload = function() {
         }, 500);
 
     }
-    newGame.addEventListener('click',  startGame);
+    levelEdit.addEventListener('click', startGame.bind(null, true));
+    newGame.addEventListener('click',  startGame.bind(null, false));
     newGame.addEventListener('mouseout',  function(e) {
         newGame.style.opacity = .5;
     });

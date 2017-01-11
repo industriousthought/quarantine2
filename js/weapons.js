@@ -18,8 +18,6 @@ var weaponStats = {
 }
 
 
-
-
 var drop = function(dropper, weapon) {
     var start = Date.now();
     return {

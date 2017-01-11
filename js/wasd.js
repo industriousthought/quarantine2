@@ -1,9 +1,12 @@
-window.keysPressed = [];
-var switchWeapon;
+var keysPressed = [];
+var switchWeapon, activate;
+
 
 var wasd = {
+    started: false,
     x: 0,
     responseEffect: function() {
+        
         if (this.running) {
             this.velocity = 12;
         } else {
@@ -35,9 +38,12 @@ var wasd = {
             this.pos.y += Math.sin(this.pos.rot - Math.PI * 1.5) * 4;
         }
         if (switchWeapon) {
-            console.log('ttab');
             switchWeapon = false;
             this.nextWeapon();
+        }
+        if (activate) {
+            activate = false;
+            this.activate.call(this);
         }
         return true;
     },
@@ -78,12 +84,17 @@ var wasd = {
             e.preventDefault();
             switchWeapon = true;
         }
+        if (e.keyCode === 32) {
+            e.preventDefault();
+            activate = true;
+        }
 
     },
 
     keyDown: function(e) {
-        if (keysPressed.indexOf(e.keyCode) === -1) {
-            keysPressed.push(e.keyCode)
+
+        if (this.indexOf(e.keyCode) === -1) {
+            this.push(e.keyCode);
             switch (e.keyCode) {
                 case 16:
                     wasd.controlling.running = true;
@@ -106,41 +117,43 @@ var wasd = {
                     break;
             }
         }
-    },
+    }.bind(keysPressed),
     keyUp: function(e) {
-        keysPressed.splice(keysPressed.indexOf(e.keyCode), 1);
+        this.splice(this.indexOf(e.keyCode), 1);
         switch (e.keyCode) {
             case 16:
                 wasd.controlling.running = false;
                 break;
             case 87: 
                 wasd.controlling.up = false;
-                if (keysPressed.indexOf(83) !== -1) wasd.controlling.down = true;
+                if (this.indexOf(83) !== -1) wasd.controlling.down = true;
                 break;
             case 65: 
                 wasd.controlling.left = false;
-                if (keysPressed.indexOf(68) !== -1) wasd.controlling.right = true;
+                if (this.indexOf(68) !== -1) wasd.controlling.right = true;
                 break;
             case 83: 
                 wasd.controlling.down = false;
-                if (keysPressed.indexOf(87) !== -1) wasd.controlling.up = true;
+                if (this.indexOf(87) !== -1) wasd.controlling.up = true;
                 break;
             case 68: 
                 wasd.controlling.right = false;
-                if (keysPressed.indexOf(65) !== -1) wasd.controlling.left = true;
+                if (this.indexOf(65) !== -1) wasd.controlling.left = true;
                 break;
         }
 
-    },
+    }.bind(keysPressed),
     start: function() {
-        window.addEventListener('mousedown', wasd.rightClick);
-        window.addEventListener('mousedown', wasd.leftClick);
+        if (!wasd.started) {
+            window.addEventListener('mousedown', wasd.rightClick);
+            window.addEventListener('mousedown', wasd.leftClick);
 
-        window.addEventListener('keydown', wasd.keyDown);
-        window.addEventListener('keydown', wasd.keyPress);
+            window.addEventListener('keydown', wasd.keyDown);
+            window.addEventListener('keydown', wasd.keyPress);
 
-        window.addEventListener('keyup', wasd.keyUp);
-
+            window.addEventListener('keyup', wasd.keyUp);
+        }
+        wasd.started = true;
     },
     stop: function() {
         window.removeEventListener('mousedown', wasd.rightClick);

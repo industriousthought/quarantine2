@@ -3,6 +3,14 @@ image.src = './img/bullet.png';
 
 var Bullet = function(options) {
 
+    /*
+    image.onload = function() { 
+        bullet.width = image.width;
+        bullet.height = image.height;
+        console.log('bullet image loaded');
+    };
+    */
+
     var range = options.range;
     var velocity = options.velocity;
 
@@ -15,6 +23,8 @@ var Bullet = function(options) {
         type: 'bullet',
         visible: true,
         radius: 10,
+        width: 50,
+        height: 50,
         img: image,
         pos: {
             x: options.x,
@@ -32,6 +42,9 @@ var Bullet = function(options) {
             zombie: function() {
                 this.die = true;
             },
+            meelee: function() {
+
+            },
             human: function() {
 
             },
@@ -42,10 +55,12 @@ var Bullet = function(options) {
                 this.die = true;
             },
             goal: function() {},
-            weapon: function() {}
+            weapon: function() {},
+            activation: function() {}
 
         }
     };
+
 
     return bullet;
 

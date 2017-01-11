@@ -15,8 +15,8 @@ var Meelee = function(options) {
         radius: 100,
         img: image,
         pos: {
-            x: options.x,
-            y: options.y,
+            x: options.parent.pos.x + Math.cos(options.rot) * 50,
+            y: options.parent.pos.y + Math.sin(options.rot) * 50,
             rot: options.rot
         },
         step: function() {
@@ -43,7 +43,8 @@ var Meelee = function(options) {
 
             },
             goal: function() {},
-            weapon: function() {}
+            weapon: function() {},
+            activation: function() {}
 
         }
     };
